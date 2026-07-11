@@ -6,7 +6,11 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
+    # Defaults to prod on PythonAnywhere, dev elsewhere. An explicit
+    # DJANGO_SETTINGS_MODULE in the environment always takes precedence.
+    from config.env import configure_default_settings
+
+    configure_default_settings()
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

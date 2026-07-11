@@ -116,19 +116,28 @@ PROJECT_ROOT = "/home/radwancafe/radwan-cafe-backend"
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-# 2. Use production settings.
+# 2. Force production settings. `config.wsgi` already auto-selects prod on
+#    PythonAnywhere (it detects PYTHONANYWHERE_DOMAIN), so this line is a
+#    belt-and-braces guarantee — keep it explicit so it can't be ambiguous.
 os.environ["DJANGO_SETTINGS_MODULE"] = "config.settings.prod"
 
-# 3. Load environment variables from .env (SECRET_KEY, ALLOWED_HOSTS, ...).
-import environ
-environ.Env.read_env(os.path.join(PROJECT_ROOT, ".env"))
-
-# 4. Serve the app.
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
+# 3. Serve the app. config.wsgi triggers the settings module, which reads the
+#    project's .env (SECRET_KEY, ALLOWED_HOSTS, ...) automatically.
+from config.wsgi import application  # noqa: E402,F401
 ```
 
 Save it.
+
+> **If you still get `DisallowedHost` or a debug traceback after reloading:**
+> the app is running **dev** settings, not prod. A full "DisallowedHost at /"
+> page only appears when `DEBUG=True` (i.e. dev). Confirm line 2 above says
+> `config.settings.prod`, that `.env` has `SECRET_KEY` set (prod refuses to
+> boot without it), and reload. Verify from a Bash console with:
+> ```bash
+> workon radwan-cafe && cd ~/radwan-cafe-backend
+> DJANGO_SETTINGS_MODULE=config.settings.prod python -c "from django.conf import settings; print(settings.DEBUG, settings.ALLOWED_HOSTS)"
+> ```
+> Expect `False ['radwancafe.pythonanywhere.com']`.
 
 ## 8. Static files mapping
 

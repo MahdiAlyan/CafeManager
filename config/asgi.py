@@ -1,9 +1,13 @@
-"""ASGI config for radwan-cafe-backend."""
+"""ASGI config for radwan-cafe-backend.
 
-import os
+Defaults to prod on PythonAnywhere, dev elsewhere. Set
+``DJANGO_SETTINGS_MODULE`` explicitly to override.
+"""
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.dev")
+from config.env import configure_default_settings
+
+configure_default_settings()
 
 application = get_asgi_application()

@@ -1,9 +1,13 @@
-"""WSGI config for radwan-cafe-backend."""
+"""WSGI config for radwan-cafe-backend.
 
-import os
+Defaults to prod on PythonAnywhere, dev elsewhere. Set
+``DJANGO_SETTINGS_MODULE`` explicitly to override.
+"""
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.dev")
+from config.env import configure_default_settings
+
+configure_default_settings()
 
 application = get_wsgi_application()
