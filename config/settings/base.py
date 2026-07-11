@@ -33,7 +33,7 @@ if _env_file.exists():
 
 SECRET_KEY = env("SECRET_KEY", default="django-insecure-dev-only-change-me")
 DEBUG = env("DEBUG")
-ALLOWED_HOSTS = env("ALLOWED_HOSTS")
+ALLOWED_HOSTS = env("ALLOWED_HOSTS", default=['radwancafe.pythonanywhere.com'])
 
 # --- Applications ---------------------------------------------------------
 
