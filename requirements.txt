@@ -1,0 +1,7 @@
+# Runtime dependencies for radwan-cafe-backend.
+# Database is SQLite (stdlib) — no psycopg / DATABASE_URL driver needed.
+Django>=6.0,<6.1
+djangorestframework>=3.17,<3.18
+django-environ>=0.14,<0.15
+drf-spectacular>=0.30,<0.31
+django-cors-headers>=4.9,<5.0
